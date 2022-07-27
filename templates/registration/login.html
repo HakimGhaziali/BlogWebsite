@@ -1,0 +1,14 @@
+
+{% extends 'home.html' %}
+
+{% block content %}
+<form method="POST">
+    <div class="form-group py-2">
+
+        {% csrf_token %}
+
+        {{form.as_p}}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+{% endblock content %}
