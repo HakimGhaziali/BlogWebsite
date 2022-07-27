@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <input type="submit" value="yes, delete">
+
+  </form>
+{% endblock content %}

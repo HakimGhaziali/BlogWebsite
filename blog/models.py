@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import User
 
-
+from django.urls import reverse
 STATUS= (
     (0, 'Draft'),
     (1,'Publish')
@@ -24,3 +24,6 @@ class Post(models.Model):
 
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('post_detail', args = [ self.id ])
+    

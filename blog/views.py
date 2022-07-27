@@ -5,42 +5,31 @@ from .models import Post
 from django.http import HttpResponse
 from .forms import PostForm
 # Create your views here.
-from django.urls import reverse
+from django.urls import reverse , reverse_lazy
+from django.views import generic
 
-def post_list(request):
+class PostList(generic.ListView):
 
-    post_list = Post.objects.filter(status=1)
-    return render(request , 'blog/post_list.html' , {'post_list': post_list})
+    model = Post 
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list' 
 
+class PostDetail(generic.DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
 
-def post_detail(request , pk):
+class PostCreate(generic.CreateView):
+    form_class = PostForm
+    template_name = 'blog/post_new_post.html'
 
-    post= get_object_or_404(Post , pk=pk)
-    return render(request ,  'blog/post_detail.html', { 'post': post})
+class PostUpdate(generic.UpdateView):
+    model = Post 
+    form_class = PostForm 
+    template_name = 'blog/post_new_post.html'
 
+class PostDelete(generic.DeleteView):
 
-
-def post_create(request):
-
-    form = PostForm
-
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()          
-            return redirect(reverse('post_list'))
-            
-           
-
-
-    else:
-        form = PostForm()
-        
-    return render(request , 'blog/post_new_post.html' , {'form': form })
-        #form = PostForm
-
-
-    
-
-
-
+    model=Post
+    template_name = 'blog/post_delete.html'
+    success_url = reverse_lazy('post_list')
